@@ -1,0 +1,40 @@
+\documentclass{article}
+\usepackage{asymptote}
+\pagestyle{empty}  % Odstraní číslování stránek
+\begin{document}
+\noindent
+
+\begin{asy}
+import graph;
+size(10cm);
+
+real R = 6;  // poloměr velkého kola
+
+int layers = 10;             // počet vrstev
+real base_r = 1.9;          // základní malý poloměr
+real base_d = 6.0;          // základní vzdálenost hrotu
+
+real tmax = 20*pi;
+int steps = 2000;
+
+for (int j = 0; j < layers; ++j) {
+  real r = base_r + j*0.3;   // měníme malý poloměr
+  real d = base_d - j*0.1;   // měníme vzdálenost hrotu
+
+  path spiro;
+  for (int i = 0; i <= steps; ++i) {
+    real t = i*tmax/steps;
+    real x = (R - r)*cos(t) + d*cos(((R - r)/r)*t);
+    real y = (R - r)*sin(t) - d*sin(((R - r)/r)*t);
+    if (i == 0)
+      spiro = (x,y);
+    else
+      spiro = spiro .. (x,y);
+  }
+  draw(spiro, rgb(0,0,1)+opacity(0.9));
+
+}
+
+\end{asy}
+
+\end{document}
